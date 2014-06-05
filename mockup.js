@@ -12,7 +12,7 @@ module.exports = function () {
     .option('-M, --MD5', 'enable MD5 replace mode')
     .option('-C, --CDN [path]', 'set CDN path')
     .option('-l, --local [path]', 'set local path')
-    .option('-r, --record', 'enable cgi recording')
+    .option('-r, --record [path]', 'enable cgi recording')
     .option('-p, --path [path]', 'site path')
     .parse(process.argv);
 
@@ -188,14 +188,34 @@ module.exports = function () {
     app.use(rpath, connect.static(lpath));
   });
 
-  var CGI_REG = /^\/cgi-bin/;
+  var CGI_REG = /^\/cgi-bin/
+    , RECORD_PATH = program.record === true ?
+      '/mockup/record' + +new Date :
+      !!program.record && path.join(__dirname, '/mockup/record' + +new Date);
+
+  var configPath;
+  
+  if (RECORD_PATH) {
+    configPath = path.join(__dirname, '/.mockupconfig');
+    fs.readFile(configPath, function (err, data) {
+      if (err && err.code === 'ENOENT') 
+        return writeConfig({
+          cgi: RECORD_PATH
+        });
+
+      data = JSON.parse(data);
+      data.cgi = RECORD_PATH;
+      return writeConfig(data);
+    });
+  }
+
+  function writeConfig(data) {
+    fs.writeFile(configPath, JSON.stringify(data));
+  }
 
   function writeCgi(buffer, url, isJSON) {
-    var cgiPath = program.cgi ?
-          program.cgi :
-          path.join(__dirname, '/mockup/cgi-bin');
     url = url.replace(CGI_REG, '');
-    var file = path.join(cgiPath, url)
+    var file = path.join(RECORD_PATH, url)
       , fileDir = path.dirname(file)
       , fileName = encodeURIComponent(path.basename(file)) + (isJSON ? '.json' : '.vm.html') 
       , string = buffer.toString();
