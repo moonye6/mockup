@@ -177,6 +177,8 @@ module.exports = function () {
   if (program.path) {
     console.log('path:'+path.join('', program.path));
     rpaths.push(  ('/' +program.path).replace(/\/+/g, '/')  );
+  } else {
+    rpaths.push('/');
   }
 
   if (program.CDN) {
@@ -194,11 +196,11 @@ module.exports = function () {
       !!program.record && path.join(__dirname, '/mockup/record' + +new Date);
 
   var configPath;
-  
+
   if (RECORD_PATH) {
     configPath = path.join(__dirname, '/.mockupconfig');
     fs.readFile(configPath, function (err, data) {
-      if (err && err.code === 'ENOENT') 
+      if (err && err.code === 'ENOENT')
         return writeConfig({
           cgi: RECORD_PATH
         });
@@ -217,13 +219,13 @@ module.exports = function () {
     url = url.replace(CGI_REG, '');
     var file = path.join(RECORD_PATH, url)
       , fileDir = path.dirname(file)
-      , fileName = encodeURIComponent(path.basename(file)) + (isJSON ? '.json' : '.vm.html') 
+      , fileName = encodeURIComponent(path.basename(file)) + (isJSON ? '.json' : '.vm.html')
       , string = buffer.toString();
     file = path.join(fileDir, fileName);
     isJSON &&
       (string = JSON.stringify(JSON.parse(string), null, '    '));
     fs.writeFile(file, string, function (e) {
-      if (e && e.code === 'ENOENT') 
+      if (e && e.code === 'ENOENT')
         return mkdirp(fileDir, '0777', function (e) {
           if (e) return;
           fs.writeFile(file, string);
@@ -233,7 +235,7 @@ module.exports = function () {
 
   app
     .use(function (req, res, next) {
-      var host = req.headers.host.replace(/^dev\./, '');
+      req.headers.host = req.headers.host.replace(/^dev\./, '');
       req.url === '/' && (req.url = '/index.html');
       if (program.record && CGI_REG.test(req.url)) {
         var buffers = [], isGzip;
@@ -245,7 +247,7 @@ module.exports = function () {
           isGzip = proxyReq.headers['content-encoding'] === 'gzip';
           res.on('finish', function () {
             var buffer = Buffer.concat(buffers);
-            isGzip ? 
+            isGzip ?
               zlib.gunzip(Buffer.concat(buffers), function (err, buffer) {
                 if (err) return;
                 writeCgi(buffer, req.url, ~proxyReq.headers['content-type'].indexOf('application/json'));
@@ -255,8 +257,9 @@ module.exports = function () {
         });
       }
       proxy.web(req, res, {
-        target: 'http://' + host
+        target: 'http://' + req.headers.host
       }, function (e) {
+        console.log(e);
         next(e);
       });
     })
