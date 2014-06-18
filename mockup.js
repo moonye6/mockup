@@ -14,6 +14,7 @@ module.exports = function () {
     .option('-l, --local [path]', 'set local path')
     .option('-r, --record [path]', 'enable cgi recording')
     .option('-p, --path [path]', 'site path')
+    .option('-e, --experiment', 'enable experiment feature')
     .parse(process.argv);
 
   var connect = require('connect')
@@ -28,6 +29,9 @@ module.exports = function () {
     , debug = require('debug')
     , log = new Log('debug', fs.createWriteStream('badjs.log'))
     , send = require('send')
+    , pipeMiddle = require('middleware-pipe')
+    , replace = require('gulp-replace')
+    , velocity = require('gulp-velocity')
     , logMap = {
       '2': ['info','green'],
       '4': ['warning','magenta'],
@@ -100,7 +104,7 @@ module.exports = function () {
                   , ps = []
                   , isNext = true;
 
-                cgiPaths.forEach(function (cgipath) {
+                cgiPaths.forEach(function (cgiPath) {
                   ps.push(path.join(cgiPath, url));
                 });
 
@@ -141,6 +145,32 @@ module.exports = function () {
 
                 isNext && next();
               });
+
+  // enable middleware-pipe
+  if (program.experiment) {
+    app.use(program.path ? '/' + program.path : '/', pipeMiddle('./src', /\.html$/)
+        .pipe(function (req) {
+          return replace(/\<inline.*?src\=('|")(.*?)\1.*?\/?\>/, function (all, quz, src) {
+            var file = path.resolve(path.dirname(path.join('./src', req.url)), src);
+            return fs.readFileSync(file);
+          });
+        }))
+      .use('/cgi-bin-dev', pipeMiddle('./src/vm', /\//, function (url) {
+        var index = url.indexOf('?');
+        if (~index) {
+          return url.substring(0, index) + '.vm'
+        } else {
+          return url + '.vm';
+        }
+      }).pipe(function (req) {
+        return velocity({
+          root: './src/vm/',
+          encoding: 'utf-8',
+          dataPath: './',
+          globalMacroPath: './src/vm/'
+        });
+      }));
+  }
 
   if (program.MD5) {
     app.use('/' + program.CDN, function (req, res, next) {
@@ -263,6 +293,6 @@ module.exports = function () {
         next(e);
       });
     })
-    .listen(80);
+    .listen(3000);
 
 }();

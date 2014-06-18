@@ -19,7 +19,10 @@
     "log": "*",
     "debug": "*",
     "send": "*",
-    "http-proxy": "*"
+    "http-proxy": "*",
+    "middleware-pipe": "*",
+    "gulp-replace": "*",
+    "gulp-velocity": "*"
   },
   "license": "MIT"
 }
