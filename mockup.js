@@ -139,6 +139,12 @@ module.exports = function () {
                     res.statusCode = 200;
                     res.end(fs.readFileSync(p));
                     return false;
+                  } else if (fs.existsSync(p + '.html')) {
+                    isNext = false;
+                    p = p + '.html';
+                    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
+                    res.statusCode = 200;
+                    res.end(fs.readFileSync(p));
                   }
                   return true;
                 });
@@ -293,6 +299,6 @@ module.exports = function () {
         next(e);
       });
     })
-    .listen(3000);
+    .listen(80);
 
 }();
