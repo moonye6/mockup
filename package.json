@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "commander": "*",
-    "connect": "*",
+    "connect": ">3.0.0",
     "mkdirp": "*",
     "log": "*",
     "debug": "*",
@@ -22,7 +22,10 @@
     "http-proxy": "*",
     "middleware-pipe": "*",
     "gulp-replace": "*",
-    "gulp-velocity": "*"
+    "gulp-velocity": "*",
+    "qs": "*",
+    "body-parser": "*",
+    "serve-static": "*"
   },
   "license": "MIT"
 }

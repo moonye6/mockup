@@ -20,6 +20,9 @@ module.exports = function () {
   var connect = require('connect')
     , httpProxy = require('http-proxy')
     , proxy = httpProxy.createProxyServer()
+    , qs = require('qs')
+    , bodyParser = require('body-parser')
+    , serveStatic = require('serve-static')
     , fs = require('fs')
     , zlib = require('zlib')
     , path = require('path')
@@ -84,18 +87,23 @@ module.exports = function () {
 
   })();
 
+  function getQuery(req) {
+    return ~req.url.indexOf('?') ?
+      qs.parse(URL.parse(req.url).query) : {};
+  }
+
   var app = connect()
-              .use('/cgi-bin-dev/badjs_mock', connect.query())
               .use('/cgi-bin-dev/badjs_mock', function (req, res, next) {
-                log[logMap[req.query.level][0]](req.query.msg);
-                var msg = req.query.msg.split('|_|');
-                badjs(logMap[req.query.level][0], color[logMap[req.query.level][1]](msg[0]) , msg[1]||'', msg[2]||'', msg[3]||'');
+                var query = getQuery(req);
+                log[logMap[query.level][0]](query.msg);
+                var msg = query.msg.split('|_|');
+                badjs(logMap[query.level][0], color[logMap[query.level][1]](msg[0]) , msg[1]||'', msg[2]||'', msg[3]||'');
                 res.writeHead(204, {'Content-Type': 'image/png'});
                 res.statusCode = 204;
                 res.end('');
               })
-              .use('/cgi-bin-dev', connect.json())
-              .use('/cgi-bin-dev', connect.urlencoded())
+              .use('/cgi-bin-dev', bodyParser.json())
+              .use('/cgi-bin-dev', bodyParser.urlencoded())
               .use('/cgi-bin-dev', function (req, res, next) {
                 var url = req.url.replace(/\?.*$/, '')
                   , cgiPaths = program.cgi ?
@@ -223,7 +231,7 @@ module.exports = function () {
   }
 
   rpaths.forEach(function(rpath){
-    app.use(rpath, connect.static(lpath));
+    app.use(rpath, serveStatic(lpath));
   });
 
   var CGI_REG = /^\/cgi-bin/
