@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<inline src="./inline.html" />
+<script src="./components/js/dwarf.js?__inline=true"></script>
+<script>
+require(['jquery', './js/main'], function ($, main) {
+    main.init();
+});
+</script>
+</body>
+</html>

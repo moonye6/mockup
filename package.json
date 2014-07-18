@@ -25,7 +25,9 @@
     "gulp-velocity": "*",
     "qs": "*",
     "body-parser": "*",
-    "serve-static": "*"
+    "serve-static": "*",
+    "utils-merge": "*",
+    "through2": "*"
   },
   "license": "MIT"
 }
