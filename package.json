@@ -1,6 +1,6 @@
 {
   "name": "inhale",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A mock up data server",
   "keywords": [
     "mockup",
@@ -13,21 +13,17 @@
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "commander": "*",
     "connect": ">3.0.0",
-    "mkdirp": "*",
+    "middleware-pipe": "*",
+    "through2": "*",
+    "gulp-sass": "*",
+    "gulp-replace": "*",
+    "qs": "*",
     "log": "*",
     "debug": "*",
-    "send": "*",
-    "http-proxy": "*",
-    "middleware-pipe": "*",
-    "gulp-replace": "*",
-    "gulp-velocity": "*",
-    "qs": "*",
-    "body-parser": "*",
-    "serve-static": "*",
-    "utils-merge": "*",
-    "through2": "*"
+    "spritesmith": "*",
+    "globby": "*",
+    "utils-merge": "*"
   },
   "license": "MIT"
 }
