@@ -1,13 +1,13 @@
 {
-  "name": "inhale",
-  "version": "0.1.5",
-  "description": "A mock up data server",
+  "name": "inhale-fix",
+  "version": "0.1.6",
+  "description": "A mock up data server， fix node sass buffer replace bug",
   "keywords": [
     "mockup",
     "server"
   ],
-  "repository": "git://github.com/miniflycn/mockup.git",
-  "author": "Daniel Yang <miniflycn@gmail.com>",
+  "repository": "git://github.com/coolriver/mockup.git",
+  "author": ["Daniel Yang <miniflycn@gmail.com>", "coolriver"],
   "main": "index",
   "engines": {
     "node": ">= 0.8.0"
