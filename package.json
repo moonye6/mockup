@@ -1,6 +1,6 @@
 {
   "name": "inhale-fix",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A mock up data server， fix node sass buffer replace bug",
   "keywords": [
     "mockup",
@@ -16,8 +16,8 @@
     "connect": ">3.0.0",
     "middleware-pipe": "0.0.6",
     "through2": "^2.0.0",
-    "node-sass": "^2.0.4",
-    "gulp-sass": "^2.0.4",
+    "node-sass": "^4.2.0",
+    "gulp-sass": "^3.1.0",
     "gulp-replace": "0.5.4",
     "qs": "^4.0.0",
     "log": "^1.4.0",
