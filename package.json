@@ -1,31 +1,38 @@
 {
-  "name": "inhale",
-  "version": "0.0.1",
-  "description": "A mock up data server",
+  "name": "inhale-fix",
+  "version": "0.1.10",
+  "description": "A mock up data server， fix node sass buffer replace bug",
   "keywords": [
     "mockup",
     "server"
   ],
-  "repository": "git://github.com/miniflycn/mockup.git",
-  "author": "Daniel Yang <miniflycn@gmail.com>",
+  "repository": "git://github.com/moonye6/mockup.git",
+  "author": [
+    "Daniel Yang <miniflycn@gmail.com>",
+    "coolriver",
+    "moonye"
+  ],
   "main": "index",
   "engines": {
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "commander": "*",
     "connect": ">3.0.0",
-    "mkdirp": "*",
-    "log": "*",
-    "debug": "*",
-    "send": "*",
-    "http-proxy": "*",
-    "middleware-pipe": "*",
-    "gulp-replace": "*",
-    "gulp-velocity": "*",
-    "qs": "*",
-    "body-parser": "*",
-    "serve-static": "*"
+    "debug": "^2.2.0",
+    "globby": "^2.1.0",
+    "gulp-replace": "0.5.4",
+    "gulp-sass": "^3.1.0",
+    "log": "^1.4.0",
+    "middleware-pipe": "0.0.6",
+    "node-sass": "^4.2.0",
+    "qs": "^4.0.0",
+    "spritesmith": "^1.3.2",
+    "through2": "^2.0.0",
+    "user": "0.0.0",
+    "utils-merge": "^1.0.0"
+  },
+  "devDependencies": {
+    "serve-static": "^1.10.0"
   },
   "license": "MIT"
 }
