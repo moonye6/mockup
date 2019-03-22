@@ -1,29 +1,34 @@
 {
   "name": "inhale-fix",
-  "version": "0.1.7",
+  "version": "0.1.10",
   "description": "A mock up data server， fix node sass buffer replace bug",
   "keywords": [
     "mockup",
     "server"
   ],
-  "repository": "git://github.com/coolriver/mockup.git",
-  "author": ["Daniel Yang <miniflycn@gmail.com>", "coolriver"],
+  "repository": "git://github.com/moonye6/mockup.git",
+  "author": [
+    "Daniel Yang <miniflycn@gmail.com>",
+    "coolriver",
+    "moonye"
+  ],
   "main": "index",
   "engines": {
     "node": ">= 0.8.0"
   },
   "dependencies": {
     "connect": ">3.0.0",
-    "middleware-pipe": "0.0.6",
-    "through2": "^2.0.0",
-    "node-sass": "^4.2.0",
-    "gulp-sass": "^3.1.0",
-    "gulp-replace": "0.5.4",
-    "qs": "^4.0.0",
-    "log": "^1.4.0",
     "debug": "^2.2.0",
-    "spritesmith": "^1.3.2",
     "globby": "^2.1.0",
+    "gulp-replace": "0.5.4",
+    "gulp-sass": "^3.1.0",
+    "log": "^1.4.0",
+    "middleware-pipe": "0.0.6",
+    "node-sass": "^4.2.0",
+    "qs": "^4.0.0",
+    "spritesmith": "^1.3.2",
+    "through2": "^2.0.0",
+    "user": "0.0.0",
     "utils-merge": "^1.0.0"
   },
   "devDependencies": {
